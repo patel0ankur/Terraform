@@ -133,7 +133,7 @@ resource "aws_nat_gateway" "my_natgw" {
     subnet_id     = "${aws_subnet.public_subnet.0.id}"
 
     tags = {
-        Name = "my_natw"
+        Name = "my_natgw"
 
     }
 }
