@@ -1,0 +1,8 @@
+#  Local .terraform directories
+ec2/.terraform
+.terraform
+*.tfstate
+*.tfstate.backup
+vpc/.terraform
+vpc/*.tfstate
+vpc/*.tfstate.backup

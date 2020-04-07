@@ -1,0 +1,26 @@
+provider "aws" {
+  region = "us-east-1"
+}
+
+
+
+
+resource "aws_security_group" "ec2_sg" {
+  ingress {
+    from_port   = 22
+    protocol    = "tcp"
+    to_port     = 22
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+}
+
+resource "aws_instance" "ec2_instance" {
+  ami                    = "ami-bd32cac7"
+  instance_type          = "t2.micro"
+  vpc_security_group_ids = ["${aws_security_group.ec2_sg.id}"]
+  tags = {
+    name = "webserver"
+  }
+}
+
+
