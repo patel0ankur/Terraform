@@ -11,7 +11,8 @@ resource "aws_vpc" "main" {
   instance_tenancy     = "default"
 
   tags = {
-    Name = "my_vpc"
+    Name        = "${var.environment}_vpc"
+    Environment = "${var.environment}"
   }
 }
 
@@ -20,7 +21,8 @@ resource "aws_internet_gateway" "igw" {
   vpc_id = "${aws_vpc.main.id}"
 
   tags = {
-    Name = "my_igw"
+    Name        = "${var.environment}_igw"
+    Environment = "${var.environment}"
   }
 }
 
@@ -34,7 +36,8 @@ resource "aws_route_table" "public_route_table" {
   }
 
   tags = {
-    Name = "my_public_route_table"
+    Name        = "${var.environment}_public_route_table"
+    Environment = "${var.environment}"
   }
 }
 
@@ -42,12 +45,14 @@ resource "aws_route_table" "public_route_table" {
 resource "aws_default_route_table" "private_route_table" {
   default_route_table_id = "${aws_vpc.main.default_route_table_id}"
 
-#  route{
-#      nat_gateway_id = "${aws}"
-#  }
+  route {
+    nat_gateway_id = "${aws_nat_gateway.my_natgw.id}"
+    cidr_block     = "0.0.0.0/0"
+  }
 
   tags = {
-    Name = "my_private_route_table"
+    Name        = "${var.environment}_private_route_table"
+    Environment = "${var.environment}"
   }
 }
 
@@ -59,7 +64,8 @@ resource "aws_subnet" "public_subnet" {
   availability_zone = "${data.aws_availability_zones.available.names[count.index]}"
 
   tags = {
-    Name = "my_public_subnet_${count.index + 1}"
+    Name        = "${var.environment}_public_subnet_${count.index + 1}"
+    Environment = "${var.environment}"
   }
 }
 
@@ -71,7 +77,8 @@ resource "aws_subnet" "private_subnet" {
   availability_zone = "${data.aws_availability_zones.available.names[count.index]}"
 
   tags = {
-    Name = "my_private_subnet_${count.index + 1}"
+    Name        = "${var.environment}_private_subnet_${count.index + 1}"
+    Environment = "${var.environment}"
   }
 }
 
@@ -98,7 +105,8 @@ resource "aws_security_group" "my_sg" {
   vpc_id = "${aws_vpc.main.id}"
 
   tags = {
-    Name = "my_sg"
+    Name        = "${var.environment}_sg"
+    Environment = "${var.environment}"
   }
 }
 
@@ -124,16 +132,21 @@ resource "aws_security_group_rule" "all_outbound_rules" {
 
 # Create Elastic IP
 resource "aws_eip" "my_eip" {
-    vpc = true
+  vpc = true
+
+  tags = {
+    Name        = "${var.environment}_eip"
+    Environment = "${var.environment}"
+  }
 }
 
 # Create NAT Gateway
 resource "aws_nat_gateway" "my_natgw" {
-    allocation_id = "${aws_eip.my_eip.id}"
-    subnet_id     = "${aws_subnet.public_subnet.0.id}"
+  allocation_id = "${aws_eip.my_eip.id}"
+  subnet_id     = "${aws_subnet.public_subnet.0.id}"
 
-    tags = {
-        Name = "my_natgw"
-
-    }
+  tags = {
+    Name        = "${var.environment}_natgw"
+    Environment = "${var.environment}"
+  }
 }
