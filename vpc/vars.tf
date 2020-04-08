@@ -10,12 +10,12 @@ variable "vpc_cidr" {
 
 variable "public_cidr" {
   description = "Public CIDR"
-  type        = list
+  type        = "list"
   default     = ["10.74.1.0/24", "10.74.2.0/24"]
 }
 
 variable "private_cidr" {
   description = "Private CIDR"
-  type        = list
+  type        = "list"
   default     = ["10.74.3.0/24", "10.74.4.0/24"]
 }
