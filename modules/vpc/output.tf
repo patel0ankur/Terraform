@@ -18,6 +18,12 @@ output "private_subnet2" {
   value = "${element(aws_subnet.private_subnet.*.id, 2)}"
 }
 
+# Below output resource is used as the input to EC2 module.
+
 output "security_group" {
   value = "${aws_security_group.my_sg.id}"
+}
+
+output "private_subnet" {
+  value = "${aws_subnet.private_subnet.*.id}"
 }
