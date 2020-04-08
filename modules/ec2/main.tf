@@ -4,13 +4,13 @@ data "aws_availability_zones" "available" {
 }
 
 #Search AMI
-data "aws_ami" "RHEL" {
+data "aws_ami" "centos" {
   owners = ["679593333241"]
   most_recent = true
 
   filter {
     name = "name"
-    valuse = ["Red Hat Enterprise Linux *"]
+    values = ["CentOS Linux 7 x86_64 HVM EBS *"]
   }
 
   filter {
@@ -29,7 +29,7 @@ data "aws_ami" "RHEL" {
 resource "aws_key_pair" "ec2_key" {
   key_name = "ec2_server_key"
   public_key = "${file(var.public_key)}"
-  
+
 }
 
 # Create Template File
@@ -40,12 +40,18 @@ data "template_file" "init" {
 # Create EC2 Instances
 resource "aws_instance" "ec2_instance" {
   count                  = 2
-  ami                    = "${data.aws_ami.RHEL.id}"
+  ami                    = "${data.aws_ami.centos.id}"
   instance_type          = "${var.instance_type}"
   key_name               = "${aws_key_pair.ec2_key.id}"
   vpc_security_group_ids = ["${var.security_group}"]
   subnet_id              = "${element(var.subnets, count.index )}"
   user_data              = "${data.template_file.init.rendered}"
+
+  root_block_device {
+    volume_type           = "gp2"
+    volume_size           = "8"
+    delete_on_termination = true
+  }
 
   tags = {
     Name = "${var.environment}_web_instance_${count.index + 1}"
@@ -75,5 +81,3 @@ resource "aws_volume_attachment" "ebs_vol_attach" {
   volume_id    = "${aws_ebs_volume.ec2_ebs.*.id[count.index]}"
   force_detach = true
 }
-
-

@@ -16,7 +16,7 @@ variable "vpc_cidr" {
 
 variable "private_subnet" {
   type    = "list"
-  default = ["190.160.1.0/24", "190.160.2.0/24"]
+  default = ["190.160.1.0/24", "190.160.2.0/24", "190.160.3.0/24", "190.160.4.0/24"]
 }
 
 data "aws_availability_zones" "azs_private" {}

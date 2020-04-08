@@ -17,7 +17,7 @@ module "vpc" {
 module "ec2" {
   source         = "./ec2"
   environment    = "dev"
-  public_key     = "/home/patelax/id_rsa.pub"
+  public_key     = "C:\\Users\\patelax\\Documents\\GitHub\\terraform\\modules\\ec2\\id_rsa.pub"
   instance_type  = "t2.micro"
   security_group = "${module.vpc.security_group}"
   subnets        = "${module.vpc.private_subnet}"

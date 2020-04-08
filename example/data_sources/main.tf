@@ -20,13 +20,13 @@ resource "aws_subnet" "private_subnet" {
 
   # Count availability_zones
   count             = "${length(data.aws_availability_zones.azs_private.names)}"
-  availability_zone = "${element(data.aws_availability_zones.azs_private.names,count.index)}"
+  availability_zone = "${element(data.aws_availability_zones.azs_private.names, count.index)}"
 
   # Loop subnet cidr list one by one
-  cidr_block = "${element(var.private_subnet,count.index)}"
+  cidr_block = "${element(var.private_subnet, count.index)}"
 
   tags {
-    Name = "private_subnet-${count.index+1}"
+    Name = "private_subnet-${count.index + 1}"
   }
 }
 
