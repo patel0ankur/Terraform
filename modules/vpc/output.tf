@@ -1,4 +1,4 @@
-# Below output resource (public_subnet) is used as the input to elb module.
+# Below output resource (public_subnet) is used as the input to elb and auto-scaling module.
 output "public_subnet1" {
   value = "${element(aws_subnet.public_subnet.*.id, 1)}"
 }

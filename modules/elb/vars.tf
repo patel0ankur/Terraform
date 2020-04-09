@@ -3,4 +3,6 @@ variable "instance1_id" {}
 variable "instance2_id" {}
 variable "public_subnet1" {}
 variable "public_subnet2" {}
-
+variable "environment" {
+  description = "Environment Name"
+}

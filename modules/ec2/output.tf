@@ -17,3 +17,7 @@ output "server_ip2" {
 }
 
 
+# Below output resource (ami) is used as the input to auto-scaling module.
+output "ami" {
+  value = "${data.aws_ami.centos.id}"
+}

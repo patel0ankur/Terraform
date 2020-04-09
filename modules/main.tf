@@ -23,14 +23,24 @@ module "ec2" {
   subnets        = "${module.vpc.private_subnet}"
 }
 
-# variables for ELB
+# Variables for ELB
 module "elb" {
-  source = "./elb"
+  source         = "./elb"
   environment    = "dev"
-  vpc_id = "${module.vpc.vpc_id}"
-  instance1_id = "${module.ec2.instance1_id}"
-  instance2_id = "${module.ec2.instance2_id}"
+  vpc_id         = "${module.vpc.vpc_id}"
+  instance1_id   = "${module.ec2.instance1_id}"
+  instance2_id   = "${module.ec2.instance2_id}"
   public_subnet1 = "${module.vpc.public_subnet1}"
   public_subnet2 = "${module.vpc.public_subnet2}"
 }
 
+# Variables for Auto-Scaling
+module "auto_scaling" {
+  source           = "./auto_scaling"
+  environment      = "dev"
+  ami              = "${module.ec2.ami}"
+  vpc_id           = "${module.vpc.vpc_id}"
+  public_subnet1   = "${module.vpc.public_subnet1}"
+  public_subnet2   = "${module.vpc.public_subnet2}"
+  target_group_arn = "${module.elb.elb_target_group_arn}"
+}
