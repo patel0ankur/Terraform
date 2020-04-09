@@ -4,7 +4,6 @@ provider "aws" {
 }
 
 # Variables for VPC
-
 module "vpc" {
   source       = "./vpc"
   environment  = "dev"
@@ -29,7 +28,7 @@ module "elb" {
   environment    = "dev"
   vpc_id         = "${module.vpc.vpc_id}"
   instance1_id   = "${module.ec2.instance1_id}"
-  instance2_id   = "${module.ec2.instance2_id}"
+  instance2_id   = "${module.ec2.instance2_id}" 
   public_subnet1 = "${module.vpc.public_subnet1}"
   public_subnet2 = "${module.vpc.public_subnet2}"
 }

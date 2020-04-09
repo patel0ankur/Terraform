@@ -3,7 +3,7 @@ resource "aws_launch_configuration" "web_launch_config" {
 
   image_id        = "${var.ami}"
   instance_type   = "t2.micro"
-  security_groups = ["${aws_security_group.web_asg_sg.id}"]
+  security_groups = ["${aws_security_group.web_as_sg.id}"]
 
   user_data = <<-EOF
               #!/bin/bash

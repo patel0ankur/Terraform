@@ -1,7 +1,7 @@
 # Create Target Group
 resource "aws_lb_target_group" "web_target_group" {
 
-  name        = "web_target_group"
+  name        = "web-target-group"
   port        = "80"
   protocol    = "HTTP"
   target_type = "instance"
@@ -16,7 +16,7 @@ resource "aws_lb_target_group" "web_target_group" {
     interval            = 10
   }
 }
-
+/*
 # Reginster Targets (Instances) to Target group
 resource "aws_lb_target_group_attachment" "elb_targetgroup_instance1" {
   target_group_arn = "${aws_lb_target_group.web_target_group.arn}"
@@ -29,14 +29,15 @@ resource "aws_lb_target_group_attachment" "elb_targetgroup_instance2" {
   target_id        = "${var.instance2_id.id}"
   port             = 80
 }
+*/
 
 # Create Load Balancer
 resource "aws_lb" "web_elb" {
-  name                       = "web_elb"
+  name                       = "web-elb"
   internal                   = false
   load_balancer_type         = "application"
   ip_address_type            = "ipv4"
-  security_groups            = ["${aws_security_group.elb_sg.id}"]
+  security_groups            = ["${aws_security_group.web_elb_sg.id}"]
   subnets                    = ["${var.public_subnet1}", "${var.public_subnet2}"]
   enable_deletion_protection = true
 
