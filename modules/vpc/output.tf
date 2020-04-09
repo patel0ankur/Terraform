@@ -7,6 +7,7 @@ output "public_subnet2" {
   value = "${element(aws_subnet.public_subnet.*.id, 2)}"
 }
 
+# Below output resource (private_subnet) is used as the input to rds module.
 output "private_subnet1" {
   value = "${element(aws_subnet.private_subnet.*.id, 1)}"
 }
