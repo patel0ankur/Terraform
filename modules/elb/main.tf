@@ -1,20 +1,20 @@
 # Create Target Group
 resource "aws_lb_target_group" "web_target_group" {
 
-    name = "web_target_group"
-    port = "80"
-    protocol = "HTTP"
-    target_type = "instance"
-    vpc_id = "${var.vpc_id}"
+  name        = "web_target_group"
+  port        = "80"
+  protocol    = "HTTP"
+  target_type = "instance"
+  vpc_id      = "${var.vpc_id}"
 
-    health_check {
-        protocol = "HTTP"
-        path     = "/"
-        healthy_threshold   = 5
-        unhealthy_threshold = 2
-        timeout             = 5
-        interval            = 10
-    }
+  health_check {
+    protocol            = "HTTP"
+    path                = "/"
+    healthy_threshold   = 5
+    unhealthy_threshold = 2
+    timeout             = 5
+    interval            = 10
+  }
 }
 
 # Reginster Targets (Instances) to Target group
@@ -41,15 +41,15 @@ resource "aws_lb" "web_elb" {
   enable_deletion_protection = true
 
   tags = {
-    Name = "${var.environment}_web_elb"
+    Name        = "${var.environment}_web_elb"
     Environment = "${var.environment}"
   }
 }
 
 # Create Security Group for ELB
 resource "aws_security_group" "web_elb_sg" {
-  name        = "web_elb_sg"
-  vpc_id      = "${var.vpc_id}"
+  name   = "web_elb_sg"
+  vpc_id = "${var.vpc_id}"
 
   ingress {
     from_port   = 22
@@ -73,7 +73,7 @@ resource "aws_security_group" "web_elb_sg" {
   }
 
   tags = {
-    Name = "${var.environment}_web_elb_sg"
+    Name        = "${var.environment}_web_elb_sg"
     Environment = "${var.environment}"
   }
 }
