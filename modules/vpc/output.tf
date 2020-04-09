@@ -1,7 +1,4 @@
-output "vpc_id" {
-  value = "${aws_vpc.main.id}"
-}
-
+# Below output resource (public_subnet) is used as the input to elb module.
 output "public_subnet1" {
   value = "${element(aws_subnet.public_subnet.*.id, 1)}"
 }
@@ -18,7 +15,7 @@ output "private_subnet2" {
   value = "${element(aws_subnet.private_subnet.*.id, 2)}"
 }
 
-# Below output resource is used as the input to EC2 module.
+# Below output resource (security_group, private_subnet) is used as the input to EC2 module.
 
 output "security_group" {
   value = "${aws_security_group.my_sg.id}"
@@ -26,4 +23,10 @@ output "security_group" {
 
 output "private_subnet" {
   value = "${aws_subnet.private_subnet.*.id}"
+}
+
+# Below output resource (vpc_id) is used as the input to ELB module.
+
+output "vpc_id" {
+  value = "${aws_vpc.main.id}"
 }
